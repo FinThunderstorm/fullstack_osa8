@@ -103,7 +103,7 @@ const typeDefs = gql`
     hello: String!
     bookCount: Int!
     authorCount: Int!
-    allBooks(author: String): [Book!]! 
+    allBooks(author: String, genre: String): [Book!]! 
     allAuthors: [Author!]!
   }
 `
@@ -114,11 +114,20 @@ const resolvers = {
     bookCount: () => books.length,
     authorCount: () => authors.length,
     allBooks: (root, args) => {
+      let bocker = books
       if(args.author === undefined) {
-        return books
+        
       } else {
-        return books.filter(p => p.author === args.author)
+        bokcer = bocker.filter(p => p.author === args.author)
       }
+
+      if(args.genre === undefined) {
+
+      } else {
+        bocker = bocker.filter(p => p.genres.includes(args.genre))
+      }
+
+      return bocker
     },
     allAuthors: () => authors
   },
